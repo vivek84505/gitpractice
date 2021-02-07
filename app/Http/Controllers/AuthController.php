@@ -80,10 +80,7 @@ class AuthController extends Controller
                 $validation_errors = $validator->errors();
                 return response()->json(['status'=>'fail','returnmsg'=>$validator->errors()->first()]);
             }    
-
-         
-
-        
+ 
 
             if( Auth::attempt(['email'=>$request->email, 'password'=>$request->password]) ) {
                 $user = Auth::user();
@@ -91,16 +88,19 @@ class AuthController extends Controller
 
                 $token = $user->createToken($user->email.'-'.now());
                 
-                
-                    return response()->json(['status'=>'success','returnmsg'=>'Login Successful',
-                        'token' => $token->accessToken
-                        ]);
-               
+                $data['returnmsg'] = "Login Successful";
+                $data['token'] = $token->accessToken;
+
+                    return response()->json(['status'=>'success','data'=>$data]);
+                      
                 
             }
             else{
-    
-                return response()->json(['status'=>'fail','returnmsg'=>'Invalid username or password'  ]);
+                
+                $data['returnmsg'] = "Incorrect username or password";
+                
+
+                return response()->json(['status'=>'fail','data'=>$data ]);
                 
               
             }
