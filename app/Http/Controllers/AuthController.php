@@ -64,11 +64,10 @@ class AuthController extends Controller
 }
 
 
-
     public function login(Request $request)
     {
 
- 
+        
           
             $validator = Validator::make($request->all(),[
                 'email' => 'required',
@@ -90,6 +89,11 @@ class AuthController extends Controller
                 
                 $data['returnmsg'] = "Login Successful";
                 $data['token'] = $token->accessToken;
+                $data['userdata']['user_id'] = $user['user_id'];
+                $data['userdata']['email'] = $user['email'];
+                $data['userdata']['firstname'] = $user['firstname'];
+                $data['userdata']['lastname'] = $user['lastname'];
+
 
                     return response()->json(['status'=>'success','data'=>$data]);
                       
